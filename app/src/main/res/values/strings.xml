@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ToastoyApp</string>
+    <string name="hello_blank_fragment">Custom Toast</string>
+    <string name="default_toast">Default Toast</string>
+    <string name="success_toast">Success Toast</string>
+    <string name="error_toast">Error Toast</string>
+    <string name="info_toast">Info Toast</string>
+    <string name="warning_toast">Warning Toast</string>
+
+    <string name="code_fun">%1$s</string>
+    <string name="code_toastoy">Toastoy</string>
+    <string name="code_send_text">\"%1$s\"</string>
+    <string name="code_this">this</string>
+</resources>

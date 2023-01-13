@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment">
+
+
+
+    <LinearLayout
+        android:id="@+id/sss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="#3D3F41"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/codeId"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="code_text"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:background="#2C2F31"
+                android:fontFamily="@font/nexa_bold"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10dp"
+                tools:ignore="NestedWeights" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/implementationBtn"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_custom"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nexa_bold"
+                android:text="Implementation"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/default_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_default"
+            android:layout_marginBottom="10dp"
+            android:text="@string/default_toast"
+            android:fontFamily="@font/nexa_bold"
+            android:textAllCaps="false"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/success_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_success"
+            android:layout_marginBottom="10dp"
+            android:text="@string/success_toast"
+            android:fontFamily="@font/nexa_bold"
+            android:textAllCaps="false"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/error_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_error"
+            android:layout_marginBottom="10dp"
+            android:text="@string/error_toast"
+            android:fontFamily="@font/nexa_bold"
+            android:textAllCaps="false"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/info_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_info"
+            android:layout_marginBottom="10dp"
+            android:text="@string/info_toast"
+            android:fontFamily="@font/nexa_bold"
+            android:textAllCaps="false"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/warning_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_warning"
+            android:text="@string/warning_toast"
+            android:fontFamily="@font/nexa_bold"
+            android:textAllCaps="false"/>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
