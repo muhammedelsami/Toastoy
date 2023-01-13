@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
 
     private fun getCodeForImp(codeText: TextView) {
         val impText = "implementation"
-        codeText.text = Html.fromHtml(impText + " " + "<font color='#4CAF50'>" + "'com.github.muhammedelsami:Toastoy:1.0.0'" + "</font> \n\n\n\n " + "\n<font color='#4CAF50'> repositories {  " +
+        codeText.text = Html.fromHtml(impText + " " + "<font color='#4CAF50'>" + "'com.github.muhammedelsami:Toastoy:Tag'" + "</font> \n\n\n\n " + "\n<font color='#4CAF50'> repositories {  " +
                 " maven { url 'https://jitpack.io' }  " +
                 "}</font> ")
     }
