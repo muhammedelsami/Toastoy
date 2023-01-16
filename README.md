@@ -8,7 +8,7 @@ repositories {
 }  
   
 dependencies {  
- implementation 'com.github.muhammedelsami:Toastoy:Tag'
+ implementation 'com.github.muhammedelsami:Toastoy:1.1.0'
 }  
 ```
 
