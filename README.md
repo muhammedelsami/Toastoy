@@ -1,9 +1,8 @@
 
 # Toastoy
 
-<!--
-<img src="https://github.com/Shashank02051997/FancyToast-Android/blob/master/fancytoastcollage.png"> -->
 
+<img src="https://github.com/muhammedelsami/Toastoy/blob/main/toastoy/Screens/Default.png">
 
 ##  Dependency 
 [![](https://jitpack.io/v/muhammedelsami/Toastoy.svg)](https://jitpack.io/#muhammedelsami/Toastoy)
