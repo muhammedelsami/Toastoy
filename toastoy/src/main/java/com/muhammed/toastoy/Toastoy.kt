@@ -1,10 +1,15 @@
 package com.muhammed.toastoy
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.view.Gravity
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +24,8 @@ import androidx.core.content.ContextCompat.getColor
 
 class Toastoy {
     companion object {
+
+        val ani = AnimateUtils()
 
         /** With activity */
 
@@ -212,6 +219,8 @@ class Toastoy {
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.success)
 
+            ani.successAnimate(toastIcon)
+
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
             textView.text = message
@@ -225,7 +234,7 @@ class Toastoy {
             }
         }
 
-        @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables")
+        @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables", "Recycle")
         fun showErrorToast(context: Context, message: String) {
 
             val activity = context as Activity
@@ -240,6 +249,8 @@ class Toastoy {
 
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.error)
+
+            ani.popUpAnimate(toastIcon)
 
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
@@ -271,6 +282,8 @@ class Toastoy {
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.info)
 
+            ani.infoAnimate(toastIcon)
+
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
             textView.text = message
@@ -300,6 +313,8 @@ class Toastoy {
 
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.warning)
+
+            ani.warningAnimate(toastIcon)
 
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
