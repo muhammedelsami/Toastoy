@@ -73,6 +73,8 @@ class Toastoy {
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.success)
 
+            ani.successAnimate(toastIcon)
+
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
             textView.text = message
@@ -99,6 +101,8 @@ class Toastoy {
 
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.error)
+
+            ani.popUpAnimate(toastIcon)
 
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
@@ -128,6 +132,8 @@ class Toastoy {
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.info)
 
+            ani.infoAnimate(toastIcon)
+
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
             textView.text = message
@@ -155,6 +161,8 @@ class Toastoy {
 
             val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
             toastIcon.setImageResource(R.drawable.warning)
+
+            ani.warningAnimate(toastIcon)
 
             // set the text of the TextView of the message
             val textView = layout.findViewById<TextView>(R.id.toast_text)
