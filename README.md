@@ -6,6 +6,10 @@
 
 ##  Dependency 
 [![](https://jitpack.io/v/muhammedelsami/Toastoy.svg)](https://jitpack.io/#muhammedelsami/Toastoy)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
+![](https://img.shields.io/github/forks/muhammedelsami/Toastoy?label=Forks)
+![](https://img.shields.io/github/stars/muhammedelsami/Toastoy?label=Stars&color=9cf)
+![](https://visitor-badge.glitch.me/badge?page_id=muhammedelsami.Toastoy)
 
 Add this in your root build.gradle file (or settings.gradle file):
 
