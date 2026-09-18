@@ -8,13 +8,16 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.os.Build
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.muhammed.toastoy.Toastoy
 import com.muhammed.toastoy.ToastoyFont
+import com.muhammed.toastoy.ToastoyFontWeight
 import com.muhammed.toastoyapp.databinding.FragmentHomeBinding
 
 
@@ -23,6 +26,8 @@ class HomeFragment : Fragment() {
     lateinit var binding : FragmentHomeBinding
 
     private var selectedFont = ToastoyFont.CAIRO
+    private var selectedWeight = ToastoyFontWeight.BOLD
+    private var selectedSize = 18f
     private var lastFun = "showDefaultToast"
     private var lastMsg = "Default Toast"
 
@@ -49,29 +54,31 @@ class HomeFragment : Fragment() {
         registerForContextMenu(codeText)
 
         setupFontSpinner()
+        setupWeightSpinner()
+        setupSizeSeekBar()
 
         binding.defaultButton.setOnClickListener {
-            Toastoy.showDefaultToast(requireContext() ,"Default Toast", selectedFont)
+            Toastoy.showDefaultToast(requireContext() ,"Default Toast", selectedFont, selectedSize, selectedWeight)
             getCode(codeText, "showDefaultToast", "Default Toast")
         }
 
         binding.successButton.setOnClickListener {
-            Toastoy.showSuccessToast(requireContext() ,"Success Toast", selectedFont)
+            Toastoy.showSuccessToast(requireContext() ,"Success Toast", selectedFont, selectedSize, selectedWeight)
             getCode(codeText, "showSuccessToast", "Success Toast")
         }
 
         binding.errorButton.setOnClickListener {
-            Toastoy.showErrorToast(requireContext() ,"Error Toast", selectedFont)
+            Toastoy.showErrorToast(requireContext() ,"Error Toast", selectedFont, selectedSize, selectedWeight)
             getCode(codeText, "showErrorToast", "Error Toast")
         }
 
         binding.warningButton.setOnClickListener {
-            Toastoy.showWarningToast(requireContext(),"Warning Toast", selectedFont)
+            Toastoy.showWarningToast(requireContext(),"Warning Toast", selectedFont, selectedSize, selectedWeight)
             getCode(codeText, "showWarningToast", "Warning Toast")
         }
 
         binding.infoButton.setOnClickListener {
-            Toastoy.showInfoToast(requireContext() ,"Info Toast", selectedFont)
+            Toastoy.showInfoToast(requireContext() ,"Info Toast", selectedFont, selectedSize, selectedWeight)
             getCode(codeText, "showInfoToast", "Info Toast")
         }
 
@@ -98,6 +105,9 @@ class HomeFragment : Fragment() {
                     text = "Font: ${font.name}"
                     setTextColor(resources.getColor(R.color.white, null))
                     typeface = ResourcesCompat.getFont(context, font.fontRes)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        fontVariationSettings = "'wght' ${ToastoyFontWeight.BOLD.value}"
+                    }
                 }
                 return row
             }
@@ -107,10 +117,62 @@ class HomeFragment : Fragment() {
         binding.fontSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedFont = fonts[position]
+                // weight rows are drawn with the selected font, so refresh them
+                (binding.weightSpinner.adapter as? ArrayAdapter<*>)?.notifyDataSetChanged()
                 getCode(binding.codeId, lastFun, lastMsg)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
+
+    /** Lists every weight; each row is rendered at that weight with the selected font. */
+    private fun setupWeightSpinner() {
+        val weights = ToastoyFontWeight.values()
+        val adapter = object : ArrayAdapter<ToastoyFontWeight>(
+            requireContext(), android.R.layout.simple_spinner_item, weights
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
+                styleRow(super.getView(position, convertView, parent), weights[position])
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View =
+                styleRow(super.getDropDownView(position, convertView, parent), weights[position])
+
+            private fun styleRow(row: View, weight: ToastoyFontWeight): View {
+                (row as TextView).apply {
+                    text = "${weight.name} (${weight.value})"
+                    setTextColor(resources.getColor(R.color.white, null))
+                    typeface = ResourcesCompat.getFont(context, selectedFont.fontRes)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        fontVariationSettings = "'wght' ${weight.value}"
+                    }
+                }
+                return row
+            }
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.weightSpinner.adapter = adapter
+        binding.weightSpinner.setSelection(weights.indexOf(selectedWeight))
+        binding.weightSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedWeight = weights[position]
+                getCode(binding.codeId, lastFun, lastMsg)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    /** 12sp – 32sp; progress 0 maps to 12sp. */
+    private fun setupSizeSeekBar() {
+        binding.sizeSeekbar.progress = (selectedSize - 12).toInt()
+        binding.sizeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedSize = 12f + progress
+                binding.sizeLabel.text = "${selectedSize.toInt()}sp"
+                getCode(binding.codeId, lastFun, lastMsg)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     private fun getCodeForImp(codeText: TextView) {
@@ -140,7 +202,9 @@ class HomeFragment : Fragment() {
         val codeAct = resources.getString(R.string.code_this)
         var codeMsg = "\"$msg\""
         val codeFont = "ToastoyFont." + selectedFont.name
-        val next = Html.fromHtml(getColoredSpanned( codeToastoy, "#FFC107") + "." + getColoredSpanned( funName, "#9859F1") + "(" + getColoredSpanned( codeAct, "#FF9800") + " ," + getColoredSpanned( codeMsg, "#4CAF50") + " ," + getColoredSpanned( codeFont, "#03A9F4") + ")")
+        val codeSize = "${selectedSize.toInt()}f"
+        val codeWeight = "ToastoyFontWeight." + selectedWeight.name
+        val next = Html.fromHtml(getColoredSpanned( codeToastoy, "#FFC107") + "." + getColoredSpanned( funName, "#9859F1") + "(" + getColoredSpanned( codeAct, "#FF9800") + " ," + getColoredSpanned( codeMsg, "#4CAF50") + " ," + getColoredSpanned( codeFont, "#03A9F4") + " ," + getColoredSpanned( codeSize, "#E91E63") + " ," + getColoredSpanned( codeWeight, "#00BCD4") + ")")
         view.text = next
     }
 

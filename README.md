@@ -58,10 +58,11 @@ To display a warning Toast:
 Toastoy.showWarningToast(this,"This is a warning toast !")
 ```
 
-## Fonts
+## Fonts, size and weight
 
-Toastoy ships with free fonts from [Google Fonts](https://fonts.google.com) (SIL Open Font License).
-Every font supports **English, Turkish and Arabic** out of the box.
+Toastoy ships with free **variable** fonts from [Google Fonts](https://fonts.google.com) (SIL Open Font License).
+Every font supports **English, Turkish and Arabic** out of the box, and any weight from thin to black
+can be picked at runtime.
 
 | `ToastoyFont`        | Font                                                                    |
 |----------------------|-------------------------------------------------------------------------|
@@ -74,19 +75,37 @@ Every font supports **English, Turkish and Arabic** out of the box.
 | `EL_MESSIRI`         | [El Messiri](https://fonts.google.com/specimen/El+Messiri)              |
 | `NOTO_KUFI_ARABIC`   | [Noto Kufi Arabic](https://fonts.google.com/specimen/Noto+Kufi+Arabic)  |
 
-Pick a font for a single toast:
+Every `show*Toast` call takes three optional parameters after the message:
+
+| Parameter    | Type                | Default  |
+|--------------|---------------------|----------|
+| `font`       | `ToastoyFont`       | `CAIRO`  |
+| `textSize`   | `Float` (sp)        | `18f`    |
+| `fontWeight` | `ToastoyFontWeight` | `BOLD`   |
+
+`ToastoyFontWeight` covers `THIN (100)`, `EXTRA_LIGHT (200)`, `LIGHT (300)`, `NORMAL (400)`, `MEDIUM (500)`,
+`SEMI_BOLD (600)`, `BOLD (700)`, `EXTRA_BOLD (800)` and `BLACK (900)`. Each font supports a different range
+(for example El Messiri 400–700, Cairo 200–1000); out-of-range values are clamped to the nearest edge.
+
+Style a single toast:
 
 ``` kotlin
 Toastoy.showSuccessToast(this, "İşlem başarılı!", ToastoyFont.CAIRO)
-Toastoy.showInfoToast(this, "تم الحفظ بنجاح", ToastoyFont.NOTO_KUFI_ARABIC)
+Toastoy.showInfoToast(this, "تم الحفظ بنجاح", ToastoyFont.NOTO_KUFI_ARABIC, 20f, ToastoyFontWeight.MEDIUM)
+Toastoy.showWarningToast(this, "Heads up", textSize = 16f, fontWeight = ToastoyFontWeight.SEMI_BOLD)
 ```
 
-Or set it once and every toast will use it:
+Or set the defaults once and every toast will use them:
 
 ``` kotlin
 Toastoy.defaultFont = ToastoyFont.ALEXANDRIA
-Toastoy.showErrorToast(this, "Something went wrong")   // rendered with Alexandria
+Toastoy.defaultTextSize = 16f
+Toastoy.defaultFontWeight = ToastoyFontWeight.MEDIUM
+Toastoy.showErrorToast(this, "Something went wrong")   // Alexandria, 16sp, medium
 ```
+
+> Variable font weights need API 26+. On API 24–25 the font's default instance is used and
+> `SEMI_BOLD` and heavier fall back to synthetic bold.
 
 
 ## Coffee

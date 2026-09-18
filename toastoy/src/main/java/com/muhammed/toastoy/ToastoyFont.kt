@@ -8,8 +8,9 @@ import androidx.core.content.res.ResourcesCompat
 /**
  * Fonts bundled with Toastoy.
  *
- * All of them are free fonts from Google Fonts (SIL Open Font License) and
- * cover Latin (English, Turkish) and Arabic scripts.
+ * All of them are free variable fonts from Google Fonts (SIL Open Font License) and
+ * cover Latin (English, Turkish) and Arabic scripts. Weight is chosen at runtime
+ * through [ToastoyFontWeight].
  *
  * Usage:
  * ```
@@ -19,16 +20,16 @@ import androidx.core.content.res.ResourcesCompat
  * ```
  */
 enum class ToastoyFont(@FontRes val fontRes: Int) {
-    CAIRO(R.font.cairo_bold),
-    ALEXANDRIA(R.font.alexandria_bold),
-    RUBIK(R.font.rubik_bold),
-    READEX_PRO(R.font.readex_pro_bold),
-    CHANGA(R.font.changa_bold),
-    VAZIRMATN(R.font.vazirmatn_bold),
-    EL_MESSIRI(R.font.el_messiri_bold),
-    NOTO_KUFI_ARABIC(R.font.noto_kufi_arabic_bold);
+    CAIRO(R.font.cairo),
+    ALEXANDRIA(R.font.alexandria),
+    RUBIK(R.font.rubik),
+    READEX_PRO(R.font.readex_pro),
+    CHANGA(R.font.changa),
+    VAZIRMATN(R.font.vazirmatn),
+    EL_MESSIRI(R.font.el_messiri),
+    NOTO_KUFI_ARABIC(R.font.noto_kufi_arabic);
 
-    /** Resolves the bundled font, falling back to the system bold font if it cannot be loaded. */
+    /** Resolves the bundled font, falling back to the system font if it cannot be loaded. */
     fun typeface(context: Context): Typeface =
-        ResourcesCompat.getFont(context, fontRes) ?: Typeface.DEFAULT_BOLD
+        ResourcesCompat.getFont(context, fontRes) ?: Typeface.DEFAULT
 }

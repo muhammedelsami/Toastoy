@@ -34,7 +34,8 @@
                 android:textAlignment="center"
                 android:gravity="center"
                 android:background="#2C2F31"
-                android:fontFamily="@font/cairo_bold"
+                android:fontFamily="@font/cairo"
+                android:textStyle="bold"
                 android:layout_weight="1"
                 android:lineSpacingExtra="10dp"
                 tools:ignore="NestedWeights" />
@@ -47,7 +48,8 @@
                 android:background="@drawable/bg_custom"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:fontFamily="@font/cairo_bold"
+                android:fontFamily="@font/cairo"
+                android:textStyle="bold"
                 android:text="Implementation"/>
         </LinearLayout>
 
@@ -62,6 +64,53 @@
             android:popupBackground="#2C2F31"
             android:spinnerMode="dropdown" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/weight_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_custom"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:popupBackground="#2C2F31"
+                android:spinnerMode="dropdown" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_custom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <TextView
+                    android:id="@+id/size_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="18sp" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/size_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="20"
+                    android:progress="6" />
+            </LinearLayout>
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/default_button"
             android:layout_width="match_parent"
@@ -69,7 +118,8 @@
             android:background="@drawable/bg_default"
             android:layout_marginBottom="10dp"
             android:text="@string/default_toast"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo"
+            android:textStyle="bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -79,7 +129,8 @@
             android:background="@drawable/bg_success"
             android:layout_marginBottom="10dp"
             android:text="@string/success_toast"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo"
+            android:textStyle="bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -89,7 +140,8 @@
             android:background="@drawable/bg_error"
             android:layout_marginBottom="10dp"
             android:text="@string/error_toast"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo"
+            android:textStyle="bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -99,7 +151,8 @@
             android:background="@drawable/bg_info"
             android:layout_marginBottom="10dp"
             android:text="@string/info_toast"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo"
+            android:textStyle="bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -108,7 +161,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_warning"
             android:text="@string/warning_toast"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo"
+            android:textStyle="bold"
             android:textAllCaps="false"/>
 
 
