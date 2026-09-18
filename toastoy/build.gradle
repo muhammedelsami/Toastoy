@@ -29,6 +29,11 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -43,11 +48,11 @@ dependencies {
 afterEvaluate() {
     publishing {
         publications {
-            maven(MavenPublication) {
+            release(MavenPublication) {
+                from components.release
                 groupId 'com.github.muhammedelsami'
                 artifactId 'Toastoy'
-                version '1.0.9'
-                artifact("$buildDir/outputs/aar/toastoy-release.aar")
+                version '1.2.0'
             }
         }
     }
