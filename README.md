@@ -58,6 +58,36 @@ To display a warning Toast:
 Toastoy.showWarningToast(this,"This is a warning toast !")
 ```
 
+## Fonts
+
+Toastoy ships with free fonts from [Google Fonts](https://fonts.google.com) (SIL Open Font License).
+Every font supports **English, Turkish and Arabic** out of the box.
+
+| `ToastoyFont`        | Font                                                                    |
+|----------------------|-------------------------------------------------------------------------|
+| `CAIRO` *(default)*  | [Cairo](https://fonts.google.com/specimen/Cairo)                        |
+| `ALEXANDRIA`         | [Alexandria](https://fonts.google.com/specimen/Alexandria)              |
+| `RUBIK`              | [Rubik](https://fonts.google.com/specimen/Rubik)                        |
+| `READEX_PRO`         | [Readex Pro](https://fonts.google.com/specimen/Readex+Pro)              |
+| `CHANGA`             | [Changa](https://fonts.google.com/specimen/Changa)                      |
+| `VAZIRMATN`          | [Vazirmatn](https://fonts.google.com/specimen/Vazirmatn)                |
+| `EL_MESSIRI`         | [El Messiri](https://fonts.google.com/specimen/El+Messiri)              |
+| `NOTO_KUFI_ARABIC`   | [Noto Kufi Arabic](https://fonts.google.com/specimen/Noto+Kufi+Arabic)  |
+
+Pick a font for a single toast:
+
+``` kotlin
+Toastoy.showSuccessToast(this, "İşlem başarılı!", ToastoyFont.CAIRO)
+Toastoy.showInfoToast(this, "تم الحفظ بنجاح", ToastoyFont.NOTO_KUFI_ARABIC)
+```
+
+Or set it once and every toast will use it:
+
+``` kotlin
+Toastoy.defaultFont = ToastoyFont.ALEXANDRIA
+Toastoy.showErrorToast(this, "Something went wrong")   // rendered with Alexandria
+```
+
 
 ## Coffee
 If this project help you reduce time to develop, you can give me a cup of coffee :) 

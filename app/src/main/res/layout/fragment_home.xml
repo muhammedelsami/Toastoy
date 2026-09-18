@@ -34,7 +34,7 @@
                 android:textAlignment="center"
                 android:gravity="center"
                 android:background="#2C2F31"
-                android:fontFamily="@font/nexa_bold"
+                android:fontFamily="@font/cairo_bold"
                 android:layout_weight="1"
                 android:lineSpacingExtra="10dp"
                 tools:ignore="NestedWeights" />
@@ -47,9 +47,20 @@
                 android:background="@drawable/bg_custom"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nexa_bold"
+                android:fontFamily="@font/cairo_bold"
                 android:text="Implementation"/>
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/font_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_custom"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:popupBackground="#2C2F31"
+            android:spinnerMode="dropdown" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/default_button"
@@ -58,7 +69,7 @@
             android:background="@drawable/bg_default"
             android:layout_marginBottom="10dp"
             android:text="@string/default_toast"
-            android:fontFamily="@font/nexa_bold"
+            android:fontFamily="@font/cairo_bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -68,7 +79,7 @@
             android:background="@drawable/bg_success"
             android:layout_marginBottom="10dp"
             android:text="@string/success_toast"
-            android:fontFamily="@font/nexa_bold"
+            android:fontFamily="@font/cairo_bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -78,7 +89,7 @@
             android:background="@drawable/bg_error"
             android:layout_marginBottom="10dp"
             android:text="@string/error_toast"
-            android:fontFamily="@font/nexa_bold"
+            android:fontFamily="@font/cairo_bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -88,7 +99,7 @@
             android:background="@drawable/bg_info"
             android:layout_marginBottom="10dp"
             android:text="@string/info_toast"
-            android:fontFamily="@font/nexa_bold"
+            android:fontFamily="@font/cairo_bold"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -97,7 +108,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_warning"
             android:text="@string/warning_toast"
-            android:fontFamily="@font/nexa_bold"
+            android:fontFamily="@font/cairo_bold"
             android:textAllCaps="false"/>
 
 
