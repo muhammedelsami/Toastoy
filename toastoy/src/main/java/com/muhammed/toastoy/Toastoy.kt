@@ -1,19 +1,22 @@
 package com.muhammed.toastoy
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.widget.ImageViewCompat
 
 /**
  * Created by Muhammed Elşami on 14/01/2023.
@@ -25,8 +28,6 @@ import androidx.core.content.ContextCompat.getColor
 class Toastoy {
     companion object {
 
-        val ani = AnimateUtils()
-
         /**
          * Font used when no [ToastoyFont] is passed to a show*Toast call.
          * Set it once (e.g. in your Application class) to change the font of every toast.
@@ -36,73 +37,14 @@ class Toastoy {
 
         /** Text size in sp used when no `textSize` is passed to a show*Toast call. */
         @JvmStatic
-        var defaultTextSize: Float = 18f
+        var defaultTextSize: Float = 14f
 
         /** Font weight used when no [ToastoyFontWeight] is passed to a show*Toast call. */
         @JvmStatic
-        var defaultFontWeight: ToastoyFontWeight = ToastoyFontWeight.BOLD
+        var defaultFontWeight: ToastoyFontWeight = ToastoyFontWeight.MEDIUM
 
-        /** With activity */
-
-        @JvmStatic
-        @JvmOverloads
-        fun showDefaultToast(
-            activity: Activity,
-            message: String,
-            font: ToastoyFont = defaultFont,
-            textSize: Float = defaultTextSize,
-            fontWeight: ToastoyFontWeight = defaultFontWeight
-        ) {
-            show(activity, message, font, textSize, fontWeight, R.color.default_color, icon = null, animate = null)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun showSuccessToast(
-            activity: Activity,
-            message: String,
-            font: ToastoyFont = defaultFont,
-            textSize: Float = defaultTextSize,
-            fontWeight: ToastoyFontWeight = defaultFontWeight
-        ) {
-            show(activity, message, font, textSize, fontWeight, R.color.success_color, R.drawable.success, ani::successAnimate)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun showErrorToast(
-            activity: Activity,
-            message: String,
-            font: ToastoyFont = defaultFont,
-            textSize: Float = defaultTextSize,
-            fontWeight: ToastoyFontWeight = defaultFontWeight
-        ) {
-            show(activity, message, font, textSize, fontWeight, R.color.error_color, R.drawable.error, ani::popUpAnimate)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun showInfoToast(
-            activity: Activity,
-            message: String,
-            font: ToastoyFont = defaultFont,
-            textSize: Float = defaultTextSize,
-            fontWeight: ToastoyFontWeight = defaultFontWeight
-        ) {
-            show(activity, message, font, textSize, fontWeight, R.color.info_color, R.drawable.info, ani::infoAnimate)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun showWarningToast(
-            activity: Activity,
-            message: String,
-            font: ToastoyFont = defaultFont,
-            textSize: Float = defaultTextSize,
-            fontWeight: ToastoyFontWeight = defaultFontWeight
-        ) {
-            show(activity, message, font, textSize, fontWeight, R.color.warning_color, R.drawable.warning, ani::warningAnimate)
-        }
+        /** Alpha of the accent colour behind the icon (0–255). */
+        private const val ICON_BACKGROUND_ALPHA = 0x2E
 
         /** With context */
 
@@ -115,7 +57,7 @@ class Toastoy {
             textSize: Float = defaultTextSize,
             fontWeight: ToastoyFontWeight = defaultFontWeight
         ) {
-            showDefaultToast(context as Activity, message, font, textSize, fontWeight)
+            show(context, message, font, textSize, fontWeight, accentColor = null, icon = null)
         }
 
         @JvmStatic
@@ -127,7 +69,7 @@ class Toastoy {
             textSize: Float = defaultTextSize,
             fontWeight: ToastoyFontWeight = defaultFontWeight
         ) {
-            showSuccessToast(context as Activity, message, font, textSize, fontWeight)
+            show(context, message, font, textSize, fontWeight, R.color.toastoy_success, R.drawable.toastoy_ic_success)
         }
 
         @JvmStatic
@@ -139,7 +81,7 @@ class Toastoy {
             textSize: Float = defaultTextSize,
             fontWeight: ToastoyFontWeight = defaultFontWeight
         ) {
-            showErrorToast(context as Activity, message, font, textSize, fontWeight)
+            show(context, message, font, textSize, fontWeight, R.color.toastoy_error, R.drawable.toastoy_ic_error)
         }
 
         @JvmStatic
@@ -151,7 +93,7 @@ class Toastoy {
             textSize: Float = defaultTextSize,
             fontWeight: ToastoyFontWeight = defaultFontWeight
         ) {
-            showInfoToast(context as Activity, message, font, textSize, fontWeight)
+            show(context, message, font, textSize, fontWeight, R.color.toastoy_info, R.drawable.toastoy_ic_info)
         }
 
         @JvmStatic
@@ -163,45 +105,103 @@ class Toastoy {
             textSize: Float = defaultTextSize,
             fontWeight: ToastoyFontWeight = defaultFontWeight
         ) {
-            showWarningToast(context as Activity, message, font, textSize, fontWeight)
+            show(context, message, font, textSize, fontWeight, R.color.toastoy_warning, R.drawable.toastoy_ic_warning)
         }
 
-        @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables")
-        private fun show(
+        /** With activity (kept for source/binary compatibility; an Activity is just a Context) */
+
+        @JvmStatic
+        @JvmOverloads
+        fun showDefaultToast(
             activity: Activity,
+            message: String,
+            font: ToastoyFont = defaultFont,
+            textSize: Float = defaultTextSize,
+            fontWeight: ToastoyFontWeight = defaultFontWeight
+        ) {
+            showDefaultToast(activity as Context, message, font, textSize, fontWeight)
+        }
+
+        @JvmStatic
+        @JvmOverloads
+        fun showSuccessToast(
+            activity: Activity,
+            message: String,
+            font: ToastoyFont = defaultFont,
+            textSize: Float = defaultTextSize,
+            fontWeight: ToastoyFontWeight = defaultFontWeight
+        ) {
+            showSuccessToast(activity as Context, message, font, textSize, fontWeight)
+        }
+
+        @JvmStatic
+        @JvmOverloads
+        fun showErrorToast(
+            activity: Activity,
+            message: String,
+            font: ToastoyFont = defaultFont,
+            textSize: Float = defaultTextSize,
+            fontWeight: ToastoyFontWeight = defaultFontWeight
+        ) {
+            showErrorToast(activity as Context, message, font, textSize, fontWeight)
+        }
+
+        @JvmStatic
+        @JvmOverloads
+        fun showInfoToast(
+            activity: Activity,
+            message: String,
+            font: ToastoyFont = defaultFont,
+            textSize: Float = defaultTextSize,
+            fontWeight: ToastoyFontWeight = defaultFontWeight
+        ) {
+            showInfoToast(activity as Context, message, font, textSize, fontWeight)
+        }
+
+        @JvmStatic
+        @JvmOverloads
+        fun showWarningToast(
+            activity: Activity,
+            message: String,
+            font: ToastoyFont = defaultFont,
+            textSize: Float = defaultTextSize,
+            fontWeight: ToastoyFontWeight = defaultFontWeight
+        ) {
+            showWarningToast(activity as Context, message, font, textSize, fontWeight)
+        }
+
+        private fun show(
+            context: Context,
             message: String,
             font: ToastoyFont,
             textSize: Float,
             fontWeight: ToastoyFontWeight,
-            @ColorRes borderColor: Int,
-            @DrawableRes icon: Int?,
-            animate: ((View) -> Unit)?
+            @ColorRes accentColor: Int?,
+            @DrawableRes icon: Int?
         ) {
-            val layout = activity.layoutInflater.inflate(
-                R.layout.custom_toast,
-                activity.findViewById(R.id.toast_container)
-            )
+            val layout = LayoutInflater.from(context).inflate(R.layout.toastoy_toast, null)
 
-            val border = layout.findViewById<View>(R.id.button_accent_border)
-            border.setBackgroundColor(getColor(activity, borderColor))
-
-            val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
-            if (icon == null) {
-                toastIcon.visibility = View.GONE
+            val iconView = layout.findViewById<ImageView>(R.id.toastoy_icon)
+            if (icon == null || accentColor == null) {
+                iconView.visibility = View.GONE
             } else {
-                toastIcon.setImageResource(icon)
-                animate?.invoke(toastIcon)
+                val accent = ContextCompat.getColor(context, accentColor)
+                iconView.setImageResource(icon)
+                ImageViewCompat.setImageTintList(iconView, ColorStateList.valueOf(accent))
+                iconView.backgroundTintList =
+                    ColorStateList.valueOf(ColorUtils.setAlphaComponent(accent, ICON_BACKGROUND_ALPHA))
+                iconView.visibility = View.VISIBLE
             }
 
-            // set the text, size, font and weight of the TextView of the message
-            val textView = layout.findViewById<TextView>(R.id.toast_text)
+            val textView = layout.findViewById<TextView>(R.id.toastoy_text)
             textView.text = message
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
             applyFont(textView, font, fontWeight)
 
-            // use the application extension function
-            Toast(activity).apply {
-                setGravity(Gravity.BOTTOM, 0, 40)
+            val bottomOffset = context.resources.getDimensionPixelSize(R.dimen.toastoy_bottom_offset)
+            @Suppress("DEPRECATION") // custom toast views are still supported for foreground apps
+            Toast(context).apply {
+                setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, bottomOffset)
                 duration = Toast.LENGTH_LONG
                 view = layout
                 show()

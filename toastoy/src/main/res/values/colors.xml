@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="error_color">#E82E3F</color>
-    <color name="success_color">#33BDA5</color>
-    <color name="warning_color">#FDBE49</color>
-    <color name="info_color">#2294F2</color>
-    <color name="default_color">#131313</color>
+    <!-- Surface of the toast card. Dark on purpose so it reads well on both light and dark apps. -->
+    <color name="toastoy_surface">#1C1D22</color>
+    <color name="toastoy_outline">#1AFFFFFF</color>
+    <color name="toastoy_text">#F5F5F7</color>
+
+    <!-- Accent per toast type; used for the icon and its tinted circle. -->
+    <color name="toastoy_success">#34D399</color>
+    <color name="toastoy_error">#F87171</color>
+    <color name="toastoy_warning">#FBBF24</color>
+    <color name="toastoy_info">#60A5FA</color>
 </resources>

@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toastoy — modern toasts for Android</title>
+<meta name="description" content="Toastoy is a drop-in Android toast library: five styles, multi-line messages that never get cut off, eight variable fonts. One line of Kotlin.">
+<meta property="og:title" content="Toastoy — modern toasts for Android">
+<meta property="og:description" content="Five styles, multi-line messages that never get cut off, eight variable fonts. One line of Kotlin.">
+<meta property="og:image" content="https://muhammedelsami.github.io/Toastoy/assets/hero.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F3F4F8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231C1D22'/%3E%3Ccircle cx='11' cy='16' r='4.5' fill='%2334D399'/%3E%3Crect x='18' y='14' width='9' height='4' rx='2' fill='%23F5F5F7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Rubik:wght@300..900&family=Alexandria:wght@100..900&family=Readex+Pro:wght@160..700&family=Changa:wght@200..800&family=Vazirmatn:wght@100..900&family=El+Messiri:wght@400..700&family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F3F4F8;
+    --panel: #FFFFFF;
+    --ink: #1C1D22;
+    --ink-2: #5F6370;
+    --line: #E1E3EA;
+    --toast: #1C1D22;
+    --toast-outline: rgba(255,255,255,.10);
+    --toast-text: #F5F5F7;
+    --success: #34D399;
+    --error: #F87171;
+    --warning: #FBBF24;
+    --info: #60A5FA;
+    --radius: 14px;
+    --display: "Cairo", system-ui, sans-serif;
+    --body: "Rubik", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  img { max-width: 100%; display: block; }
+  code, pre { font-family: var(--mono); font-size: .92em; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- header ---------- */
+  .top {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    padding: 22px 0;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 800; font-size: 22px; text-decoration: none;
+  }
+  .brand svg { width: 28px; height: 28px; }
+  .top nav { display: flex; gap: 6px; flex-wrap: wrap; }
+  .top nav a {
+    text-decoration: none; padding: 8px 14px; border-radius: 999px; font-size: 15px; color: var(--ink-2);
+  }
+  .top nav a:hover { background: #E8EAF1; color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; align-items: center;
+    padding: 40px 0 72px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 900; font-size: clamp(40px, 5.2vw, 64px);
+    line-height: 1.02; letter-spacing: -.02em; margin: 0 0 20px;
+  }
+  .lede { font-size: 19px; color: var(--ink-2); max-width: 30em; margin: 0 0 30px; }
+  .install {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 6px 16px;
+    max-width: 560px;
+  }
+  .install code { flex: 1; min-width: 0; font-size: 14px; overflow-wrap: anywhere; line-height: 1.4; }
+  .install code b { font-weight: 500; color: #0A7C5A; }
+  .btn {
+    font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
+    border: 0; border-radius: 9px; padding: 10px 14px; background: var(--ink); color: #fff;
+  }
+  .btn:hover { background: #33353D; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn.ghost:hover { background: #E8EAF1; }
+  .hero-links { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-links .btn { text-decoration: none; display: inline-block; }
+
+  /* ---------- live stage ---------- */
+  .stage {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 22px;
+    padding: 20px; box-shadow: 0 20px 50px -30px rgba(28,29,34,.35);
+  }
+  .stage-title { font-family: var(--display); font-weight: 700; font-size: 17px; margin: 0 0 12px; }
+  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .controls label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--ink-2); }
+  .controls select, .controls input[type=range], .controls textarea {
+    font: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; background: #FAFBFD;
+  }
+  .controls textarea { grid-column: 1 / -1; resize: vertical; min-height: 52px; }
+  .controls input[type=range] { padding: 0; accent-color: var(--ink); height: 34px; background: transparent; border: 0; }
+  .types { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .types button {
+    font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
+    border: 1px solid var(--line); background: #FAFBFD; color: var(--ink); border-radius: 999px; padding: 7px 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .types button:hover { background: #E8EAF1; }
+  .types button i { width: 8px; height: 8px; border-radius: 50%; background: var(--dot, var(--ink)); }
+  .screen {
+    position: relative; height: 300px; border-radius: 16px; overflow: hidden;
+    background: linear-gradient(180deg, #F4F5FA 0%, #E8ECF6 100%);
+    border: 1px solid var(--line);
+  }
+  .screen .hint {
+    position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink-2); font-size: 14px; text-align: center; padding: 20px;
+    transition: opacity .2s;
+  }
+  .screen.busy .hint { opacity: 0; }
+
+  /* the toast itself — the same numbers as the Android layout, 1dp = 1px */
+  .toast {
+    position: absolute; left: 0; right: 0; bottom: 40px; margin: 0 auto; width: fit-content; transform: translateY(12px);
+    display: flex; align-items: center; gap: 12px;
+    max-width: calc(100% - 32px);
+    min-height: 52px; padding: 10px 20px 10px 12px;
+    background: var(--toast); color: var(--toast-text);
+    border: 1px solid var(--toast-outline); border-radius: var(--radius);
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,.45);
+    font-family: "Cairo", sans-serif; font-size: 14px; line-height: 1.55;
+    opacity: 0; pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease;
+  }
+  .toast.on { opacity: 1; transform: none; }
+  .toast .icon {
+    flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .toast .icon svg { width: 20px; height: 20px; fill: var(--accent); }
+  .toast .msg {
+    max-width: 360px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;
+    overflow-wrap: anywhere;
+  }
+  .toast[dir=rtl] { padding: 10px 12px 10px 20px; }
+
+  /* ---------- sections ---------- */
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2 {
+    font-family: var(--display); font-weight: 800; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.1;
+    letter-spacing: -.015em; margin: 0 0 8px;
+  }
+  .sub { color: var(--ink-2); margin: 0 0 32px; max-width: 40em; }
+
+  .types-grid { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+  .types-grid .toast { position: static; margin: 0; transform: none; opacity: 1; pointer-events: auto; max-width: 100%; }
+
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .hero > *, .two > * { min-width: 0; }   /* let grid cells shrink below the code blocks' natural width */
+  .two ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+  .two li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; }
+  .two li svg { width: 22px; height: 22px; fill: var(--ink); margin-top: 2px; }
+  .two li strong { display: block; font-weight: 600; }
+  .two li span { color: var(--ink-2); font-size: 15px; }
+
+  pre {
+    margin: 0; background: var(--toast); color: var(--toast-text); border-radius: 14px; padding: 18px 20px;
+    overflow-x: auto; font-size: 13.5px; line-height: 1.6;
+  }
+  pre + pre { margin-top: 12px; }
+  .k { color: #C4B5FD; }   /* keyword */
+  .f { color: #93C5FD; }   /* function */
+  .s { color: #86EFAC; }   /* string */
+  .n { color: #FCD34D; }   /* number */
+  .c { color: #8B8F9A; }   /* comment */
+
+  .fonts { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .font {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 14px;
+  }
+  .font .sample { font-size: 26px; line-height: 1.2; font-weight: 600; margin: 0 0 10px; }
+  .font .sample small { display: block; font-size: 17px; font-weight: 500; margin-top: 4px; line-height: 1.5; }
+  .font code { display: block; color: var(--ink-2); font-size: 12.5px; }
+  .font code + code { margin-top: 2px; }
+
+  .cta {
+    background: var(--toast); color: var(--toast-text); border-radius: 22px; padding: 44px 40px;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center;
+  }
+  .cta h2 { color: #fff; margin-bottom: 4px; }
+  .cta p { margin: 0; color: #B4B7C2; }
+  .cta .btn { background: #fff; color: var(--ink); text-decoration: none; }
+  .cta .btn:hover { background: #E8EAF1; }
+
+  footer { padding: 32px 0 48px; color: var(--ink-2); font-size: 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--ink-2); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding-bottom: 56px; }
+    .two { grid-template-columns: 1fr; }
+    .cta { grid-template-columns: 1fr; padding: 32px 24px; }
+  }
+  @media (max-width: 560px) {
+    .top nav a { padding: 6px 9px; font-size: 14px; }
+    .controls { grid-template-columns: 1fr; }
+    .screen { height: 260px; }
+    .stage { padding: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .toast, .screen .hint { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#1C1D22"/><circle cx="11" cy="16" r="4.5" fill="#34D399"/><rect x="18" y="14" width="9" height="4" rx="2" fill="#F5F5F7"/></svg>
+    Toastoy
+  </a>
+  <nav>
+    <a href="#try">Try it</a>
+    <a href="#usage">Usage</a>
+    <a href="#fonts">Fonts</a>
+    <a href="https://github.com/muhammedelsami/Toastoy">GitHub</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div>
+      <h1>Toasts that never get cut off.</h1>
+      <p class="lede">A drop-in toast for Android. Five styles, messages that wrap instead of truncating, eight variable fonts you can tune per call. One line of Kotlin.</p>
+      <div class="install">
+        <code id="dep">implementation(<b>"com.github.muhammedelsami:Toastoy:1.4.0"</b>)</code>
+        <button class="btn" id="copy" type="button">Copy</button>
+      </div>
+      <div class="hero-links">
+        <a class="btn ghost" href="https://github.com/muhammedelsami/Toastoy#installation">Installation guide</a>
+        <a class="btn ghost" href="https://jitpack.io/#muhammedelsami/Toastoy">Releases on JitPack</a>
+      </div>
+    </div>
+
+    <div class="stage" id="try">
+      <p class="stage-title">Try it</p>
+      <div class="controls">
+        <textarea id="message" rows="2" aria-label="Message">Your profile has been updated</textarea>
+        <label>Font
+          <select id="font">
+            <option value="Cairo">Cairo (default)</option>
+            <option value="Alexandria">Alexandria</option>
+            <option value="Rubik">Rubik</option>
+            <option value="Readex Pro">Readex Pro</option>
+            <option value="Changa">Changa</option>
+            <option value="Vazirmatn">Vazirmatn</option>
+            <option value="El Messiri">El Messiri</option>
+            <option value="Noto Kufi Arabic">Noto Kufi Arabic</option>
+          </select>
+        </label>
+        <label>Weight <span id="weightLabel">500</span>
+          <input id="weight" type="range" min="100" max="900" step="100" value="500">
+        </label>
+      </div>
+      <div class="types">
+        <button type="button" data-type="success" style="--dot:#34D399"><i></i>Success</button>
+        <button type="button" data-type="error" style="--dot:#F87171"><i></i>Error</button>
+        <button type="button" data-type="warning" style="--dot:#FBBF24"><i></i>Warning</button>
+        <button type="button" data-type="info" style="--dot:#60A5FA"><i></i>Info</button>
+        <button type="button" data-type="default"><i></i>Default</button>
+      </div>
+      <div class="screen" id="screen" aria-live="polite">
+        <div class="hint">Pick a type to show a toast. Paste a long message to see it wrap.</div>
+        <div class="toast" id="toast" role="status">
+          <span class="icon" id="toastIcon"></span>
+          <span class="msg" id="toastMsg"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Five types, one surface.</h2>
+    <p class="sub">A dark, rounded card that reads on light and dark themes alike. The icon carries the meaning; the message carries the words.</p>
+    <div class="types-grid" id="gallery"></div>
+  </section>
+
+  <section id="usage">
+    <div class="two">
+      <div>
+        <h2>Call it from anywhere.</h2>
+        <p class="sub">Pass an Activity, a Fragment's context, or any other Context. Style a single toast with the optional arguments, or set defaults once.</p>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v10H4z M4 17h10v2H4z" opacity=".25"/><path d="M3 4h18v12H3zm2 2v8h14V6z"/></svg>
+            <div><strong>Wraps, never clips</strong><span>Up to four lines. Grows to the screen width before it wraps; capped on tablets.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M5 4h14v3H5zm0 6.5h9v3H5zM5 17h14v3H5z"/></svg>
+            <div><strong>Variable fonts</strong><span>Eight bundled families with Latin, Turkish and Arabic coverage. Any weight from 100 to 900.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7zm0 2.3 6.5 3.6L12 11.5 5.5 7.9zM5 9.6l6 3.3v6.6l-6-3.3zm8 9.9v-6.6l6-3.3v6.6z"/></svg>
+            <div><strong>No resource collisions</strong><span>Everything is prefixed with <code>toastoy_</code>, so your app's colours, layouts and fonts stay untouched.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v14h10V5zm3 12h4v1.5h-4z"/></svg>
+            <div><strong>Android 7.0 and up</strong><span>minSdk 24. Variable weights need API 26; older devices get the font's default instance.</span></div>
+          </li>
+        </ul>
+      </div>
+      <div>
+<pre><code><span class="c">// one line</span>
+Toastoy.<span class="f">showSuccessToast</span>(<span class="k">this</span>, <span class="s">"Your profile has been updated"</span>)
+
+<span class="c">// every type has the same shape</span>
+Toastoy.<span class="f">showErrorToast</span>(<span class="k">this</span>,   <span class="s">"Payment failed. Please try again"</span>)
+Toastoy.<span class="f">showWarningToast</span>(<span class="k">this</span>, <span class="s">"Low storage: 512 MB remaining"</span>)
+Toastoy.<span class="f">showInfoToast</span>(<span class="k">this</span>,    <span class="s">"New version available"</span>)
+Toastoy.<span class="f">showDefaultToast</span>(<span class="k">this</span>, <span class="s">"Settings saved"</span>)</code></pre>
+<pre><code><span class="c">// style one toast</span>
+Toastoy.<span class="f">showInfoToast</span>(
+    <span class="k">this</span>, <span class="s">"Bold &amp; bigger"</span>,
+    ToastoyFont.ALEXANDRIA, <span class="n">20f</span>, ToastoyFontWeight.BOLD
+)
+
+<span class="c">// or set defaults once, e.g. in Application.onCreate()</span>
+Toastoy.defaultFont = ToastoyFont.RUBIK
+Toastoy.defaultTextSize = <span class="n">15f</span>
+Toastoy.defaultFontWeight = ToastoyFontWeight.SEMI_BOLD</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="fonts">
+    <h2>Eight fonts, three scripts.</h2>
+    <p class="sub">Free variable fonts from Google Fonts, bundled with the library. Each one covers English, Turkish and Arabic, so one toast style works across your whole app.</p>
+    <div class="fonts" id="fontGrid"></div>
+  </section>
+
+  <section>
+    <div class="cta">
+      <div>
+        <h2>Add it in a minute.</h2>
+        <p>Available on JitPack. MIT licensed. Sample app in the repository.</p>
+      </div>
+      <a class="btn" href="https://github.com/muhammedelsami/Toastoy">View on GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>© <span id="year"></span> <a href="https://www.muhammedelsami.com/">Muhammed Elşami</a>. MIT License.</span>
+  <span><a href="https://github.com/muhammedelsami/Toastoy/issues">Report an issue</a> &nbsp;&nbsp; <a href="https://www.buymeacoffee.com/muhammed96">Buy me a coffee</a></span>
+</footer>
+
+<script>
+(function () {
+  var ICONS = {
+    success: 'M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM10,17l-5,-5 1.41,-1.41L10,14.17l7.59,-7.59L19,8l-9,9z',
+    error:   'M12,2C6.47,2 2,6.47 2,12s4.47,10 10,10 10,-4.47 10,-10S17.53,2 12,2zM17,15.59L15.59,17 12,13.41 8.41,17 7,15.59 10.59,12 7,8.41 8.41,7 12,10.59 15.59,7 17,8.41 13.41,12 17,15.59z',
+    warning: 'M1,21h22L12,2 1,21zM13,18h-2v-2h2v2zM13,14h-2v-4h2v4z',
+    info:    'M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM13,17h-2v-6h2v6zM13,9h-2L11,7h2v2z'
+  };
+  var COLORS = { success: '#34D399', error: '#F87171', warning: '#FBBF24', info: '#60A5FA' };
+  var RTL = /[֐-ࣿ]/;
+
+  function iconSvg(type) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICONS[type] + '"/></svg>';
+  }
+
+  function fillToast(el, type, message, font, weight) {
+    var icon = el.querySelector('.icon');
+    var msg = el.querySelector('.msg');
+    if (ICONS[type]) {
+      icon.style.display = '';
+      icon.innerHTML = iconSvg(type);
+      el.style.setProperty('--accent', COLORS[type]);
+    } else {
+      icon.style.display = 'none';
+    }
+    msg.textContent = message;
+    el.style.fontFamily = '"' + font + '", sans-serif';
+    el.style.fontWeight = weight;
+    el.setAttribute('dir', RTL.test(message) ? 'rtl' : 'ltr');
+  }
+
+  /* live stage */
+  var toast = document.getElementById('toast');
+  var screen = document.getElementById('screen');
+  var message = document.getElementById('message');
+  var font = document.getElementById('font');
+  var weight = document.getElementById('weight');
+  var weightLabel = document.getElementById('weightLabel');
+  var hideTimer;
+
+  weight.addEventListener('input', function () { weightLabel.textContent = weight.value; });
+
+  document.querySelectorAll('.types button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = message.value.trim() || 'Settings saved';
+      fillToast(toast, btn.dataset.type, text, font.value, weight.value);
+      screen.classList.add('busy');
+      toast.classList.remove('on');
+      void toast.offsetWidth;                       // restart the transition
+      toast.classList.add('on');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        toast.classList.remove('on');
+        screen.classList.remove('busy');
+      }, 3500);
+    });
+  });
+
+  /* gallery */
+  var gallery = document.getElementById('gallery');
+  [
+    ['success', 'Your profile has been updated'],
+    ['error',   'Payment failed. Please try again'],
+    ['warning', 'Low storage: 512 MB remaining'],
+    ['info',    'New version available'],
+    ['default', 'Settings saved']
+  ].forEach(function (t) {
+    var el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = '<span class="icon"></span><span class="msg"></span>';
+    fillToast(el, t[0], t[1], 'Cairo', 500);
+    gallery.appendChild(el);
+  });
+
+  /* fonts */
+  var grid = document.getElementById('fontGrid');
+  [
+    ['Cairo', 'CAIRO', '200–1000'],
+    ['Alexandria', 'ALEXANDRIA', '100–900'],
+    ['Rubik', 'RUBIK', '300–900'],
+    ['Readex Pro', 'READEX_PRO', '160–700'],
+    ['Changa', 'CHANGA', '200–800'],
+    ['Vazirmatn', 'VAZIRMATN', '100–900'],
+    ['El Messiri', 'EL_MESSIRI', '400–700'],
+    ['Noto Kufi Arabic', 'NOTO_KUFI_ARABIC', '100–900']
+  ].forEach(function (f) {
+    var el = document.createElement('div');
+    el.className = 'font';
+    el.innerHTML =
+      '<p class="sample" style="font-family:\'' + f[0] + '\'">' + f[0] +
+      '<small>İşlem başarıyla tamamlandı</small><small dir="rtl">تم حفظ التغييرات</small></p>' +
+      '<code>ToastoyFont.' + f[1] + '</code><code>weight ' + f[2] + '</code>';
+    grid.appendChild(el);
+  });
+
+  /* copy dependency line */
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function () {
+    var text = document.getElementById('dep').textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      copy.textContent = 'Copied';
+      setTimeout(function () { copy.textContent = 'Copy'; }, 1600);
+    });
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* the hero opens with a toast already on screen */
+  fillToast(toast, 'success', message.value, font.value, weight.value);
+  screen.classList.add('busy');
+  toast.classList.add('on');
+})();
+</script>
+</body>
+</html>

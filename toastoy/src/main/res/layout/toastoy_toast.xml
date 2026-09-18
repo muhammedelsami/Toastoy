@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Root is wrap_content so the card hugs its text: short messages give a compact pill,
+  long ones wrap onto several lines. The outer padding leaves room for the shadow and
+  keeps the card off the screen edges. See ToastoyRootLayout for why it is a custom view.
+-->
+<com.muhammed.toastoy.ToastoyRootLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    tools:ignore="UselessParent">
+
+    <LinearLayout
+        android:id="@+id/toastoy_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toastoy_bg_card"
+        android:elevation="@dimen/toastoy_elevation"
+        android:gravity="center_vertical"
+        android:minHeight="52dp"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="20dp"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/toastoy_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/toastoy_bg_icon"
+            android:contentDescription="@null"
+            android:padding="6dp"
+            android:visibility="gone"
+            tools:src="@drawable/toastoy_ic_success"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/toastoy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/toastoy_cairo"
+            android:gravity="start|center_vertical"
+            android:maxLines="4"
+            android:maxWidth="@dimen/toastoy_text_max_width"
+            android:textAlignment="viewStart"
+            android:textColor="@color/toastoy_text"
+            android:textSize="14sp"
+            tools:text="Your changes have been saved successfully" />
+
+    </LinearLayout>
+
+</com.muhammed.toastoy.ToastoyRootLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toastoy_corner_radius">14dp</dimen>
+    <dimen name="toastoy_elevation">6dp</dimen>
+    <!-- Widest the text column is allowed to get (tablets, landscape); on phones it is
+         further limited by the screen width minus the margins. -->
+    <dimen name="toastoy_text_max_width">360dp</dimen>
+    <dimen name="toastoy_bottom_offset">64dp</dimen>
+</resources>

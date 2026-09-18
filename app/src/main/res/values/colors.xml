@@ -11,5 +11,6 @@
     <color name="error_color">#F44336</color>
     <color name="info_color">#2196F3</color>
     <color name="warning_color">#FFC107</color>
+    <color name="default_color">#131313</color>
     <color name="bar_color">#333135</color>
 </resources>

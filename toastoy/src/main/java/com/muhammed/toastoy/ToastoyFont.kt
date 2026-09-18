@@ -20,14 +20,14 @@ import androidx.core.content.res.ResourcesCompat
  * ```
  */
 enum class ToastoyFont(@FontRes val fontRes: Int) {
-    CAIRO(R.font.cairo),
-    ALEXANDRIA(R.font.alexandria),
-    RUBIK(R.font.rubik),
-    READEX_PRO(R.font.readex_pro),
-    CHANGA(R.font.changa),
-    VAZIRMATN(R.font.vazirmatn),
-    EL_MESSIRI(R.font.el_messiri),
-    NOTO_KUFI_ARABIC(R.font.noto_kufi_arabic);
+    CAIRO(R.font.toastoy_cairo),
+    ALEXANDRIA(R.font.toastoy_alexandria),
+    RUBIK(R.font.toastoy_rubik),
+    READEX_PRO(R.font.toastoy_readex_pro),
+    CHANGA(R.font.toastoy_changa),
+    VAZIRMATN(R.font.toastoy_vazirmatn),
+    EL_MESSIRI(R.font.toastoy_el_messiri),
+    NOTO_KUFI_ARABIC(R.font.toastoy_noto_kufi_arabic);
 
     /** Resolves the bundled font, falling back to the system font if it cannot be loaded. */
     fun typeface(context: Context): Typeface =

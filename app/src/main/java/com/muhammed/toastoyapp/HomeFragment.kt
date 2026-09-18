@@ -26,8 +26,8 @@ class HomeFragment : Fragment() {
     lateinit var binding : FragmentHomeBinding
 
     private var selectedFont = ToastoyFont.CAIRO
-    private var selectedWeight = ToastoyFontWeight.BOLD
-    private var selectedSize = 18f
+    private var selectedWeight = ToastoyFontWeight.MEDIUM
+    private var selectedSize = 14f
     private var lastFun = "showDefaultToast"
     private var lastMsg = "Default Toast"
 

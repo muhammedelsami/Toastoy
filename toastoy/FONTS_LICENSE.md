@@ -7,13 +7,13 @@ Each family is bundled as a single variable font (`wght` axis). Where the upstre
 
 | File                        | Family           | Copyright                                                                                     |
 |-----------------------------|------------------|-----------------------------------------------------------------------------------------------|
-| `cairo.ttf`                 | Cairo            | Copyright 2009 The Cairo Project Authors (https://github.com/Gue3bara/Cairo)                  |
-| `alexandria.ttf`            | Alexandria       | Copyright 2022 The Alexandria Project Authors (https://github.com/Gue3bara/Alexandria)        |
-| `rubik.ttf`                 | Rubik            | Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)               |
-| `readex_pro.ttf`            | Readex Pro       | Copyright 2019 The Readex Pro Project Authors (https://github.com/ThomasJockin/readexpro)     |
-| `changa.ttf`                | Changa           | Copyright 2018 The Changa Project Authors (https://github.com/eliheuer/changa-vf)             |
-| `vazirmatn.ttf`             | Vazirmatn        | Copyright 2015 The Vazirmatn Project Authors (https://github.com/rastikerdar/vazirmatn)       |
-| `el_messiri.ttf`            | El Messiri       | Copyright 2015 The El Messiri Project Authors (https://github.com/Gue3bara/El-Messiri)        |
-| `noto_kufi_arabic.ttf`      | Noto Kufi Arabic | Copyright 2019-2022 Google LLC. All Rights Reserved.                                          |
+| `toastoy_cairo.ttf`                 | Cairo            | Copyright 2009 The Cairo Project Authors (https://github.com/Gue3bara/Cairo)                  |
+| `toastoy_alexandria.ttf`            | Alexandria       | Copyright 2022 The Alexandria Project Authors (https://github.com/Gue3bara/Alexandria)        |
+| `toastoy_rubik.ttf`                 | Rubik            | Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)               |
+| `toastoy_readex_pro.ttf`            | Readex Pro       | Copyright 2019 The Readex Pro Project Authors (https://github.com/ThomasJockin/readexpro)     |
+| `toastoy_changa.ttf`                | Changa           | Copyright 2018 The Changa Project Authors (https://github.com/eliheuer/changa-vf)             |
+| `toastoy_vazirmatn.ttf`             | Vazirmatn        | Copyright 2015 The Vazirmatn Project Authors (https://github.com/rastikerdar/vazirmatn)       |
+| `toastoy_el_messiri.ttf`            | El Messiri       | Copyright 2015 The El Messiri Project Authors (https://github.com/Gue3bara/El-Messiri)        |
+| `toastoy_noto_kufi_arabic.ttf`      | Noto Kufi Arabic | Copyright 2019-2022 Google LLC. All Rights Reserved.                                          |
 
 Full license text: https://openfontlicense.org/open-font-license-official-text/
